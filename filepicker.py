@@ -12,21 +12,23 @@ def archivo_seleccionado(e: ft.FilePickerResultEvent):
         e (ft.FilePickerResultEvent): El evento de resultado del FilePicker que contiene
         información sobre el archivo seleccionado.
     """
-    directorio_actual = os.getcwd()
-    for archivo in os.listdir(directorio_actual):
-        if archivo.endswith((".xlsx", ".xls")):
-            archivo_borrado = os.path.join(directorio_actual, archivo)
-            os.remove(archivo_borrado)
-    archivo_subido = e.files[0]
+    if e.files is not None:
+        directorio_actual = os.getcwd()
+        for archivo in os.listdir(directorio_actual):
+            if archivo.endswith((".xlsx", ".xls")):
+                archivo_borrado = os.path.join(directorio_actual, archivo)
+                os.remove(archivo_borrado)
 
-    # Accede a los atributos del objeto FilePickerFile utilizando el operador de punto
-    ruta_archivo = archivo_subido.path
-    nombre_archivo = os.path.basename(ruta_archivo)
+        archivo_subido = e.files[0]
 
-    print(ruta_archivo)
+        # Accede a los atributos del objeto FilePickerFile utilizando el operador de punto
+        ruta_archivo = archivo_subido.path
+        nombre_archivo = os.path.basename(ruta_archivo)
 
-    # Define la ubicación de destino (en el directorio actual)
-    destino_archivo_subido = os.path.join(directorio_actual, nombre_archivo)
+        print(ruta_archivo)
 
-    # Copia el archivo seleccionado al directorio de destino
-    shutil.copyfile(ruta_archivo, destino_archivo_subido)
+        # Define la ubicación de destino (en el directorio actual)
+        destino_archivo_subido = os.path.join(directorio_actual, nombre_archivo)
+
+        # Copia el archivo seleccionado al directorio de destino
+        shutil.copyfile(ruta_archivo, destino_archivo_subido)

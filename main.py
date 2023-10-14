@@ -7,7 +7,7 @@ from filepicker import archivo_seleccionado
 # Constantes para tamaños de texto, alineaciones y colores
 TEXTO_GRANDE = 40
 TEXTO_MEDIANO = 30
-TEXTO_PEQUEÑO = 20
+TEXTO_PEQUENO = 20
 TEXTO_CENTRADO = ft.TextAlign.CENTER
 NOMBRES_HOJAS_NOMINAS = "Hoja Renacimiento, Hoja Lincoln"
 COLOR_PRIMARIO = "#3498db"
@@ -34,6 +34,24 @@ def crear_ui(page: ft.Page):
     filepicker_popup = ft.FilePicker(on_result=archivo_seleccionado)
     page.overlay.append(filepicker_popup)
 
+    def manejar_filepicker():
+        try:
+            # Intenta ejecutar el filepicker
+            filepicker_popup.pick_files(
+                allow_multiple=False, allowed_extensions=["xlsx", "xls"]
+            )
+        except Exception as e:
+            # En caso de error, muestra una alerta con el mensaje de error
+            print("error", e)
+            dlg = ft.AlertDialog(
+                title=ft.Text(
+                    "Hay un error, asegurate de que el archivo seleccionado no esté abierto."
+                )
+            )
+            page.dialog = dlg
+            dlg.open = True
+            page.update()
+
     estilo_boton = ft.ButtonStyle(
         bgcolor=COLOR_PRIMARIO,
         color="white",
@@ -57,9 +75,7 @@ def crear_ui(page: ft.Page):
     agregar_archivos = ft.ElevatedButton(
         "Seleccionar archivo",
         icon=ft.icons.UPLOAD_FILE,
-        on_click=lambda _ :filepicker_popup.pick_files(
-            allow_multiple=False, allowed_extensions=["xlsx", "xls"]
-        ),
+        on_click=lambda _: manejar_filepicker(),
         style=estilo_boton,
     )
 
@@ -77,12 +93,19 @@ def crear_ui(page: ft.Page):
         style=estilo_boton,
     )
 
+    confirmar_hojas = ft.ElevatedButton(
+        "Confirmar hojas",
+        icon=ft.icons.CHECK,
+        on_click="hola",
+        style=estilo_boton,
+    )
+
     paso_uno = ft.Column(
         [
             ft.Text(
                 value="1) Ingrese el excel de la nómina:",
                 text_align=TEXTO_CENTRADO,
-                size=TEXTO_PEQUEÑO,
+                size=TEXTO_PEQUENO,
             ),
             agregar_archivos,
         ],
@@ -94,9 +117,10 @@ def crear_ui(page: ft.Page):
             ft.Text(
                 value="2) Ingrese el nombre de las hojas donde se encuentren las nóminas:",
                 text_align=TEXTO_CENTRADO,
-                size=TEXTO_PEQUEÑO,
+                size=TEXTO_PEQUENO,
             ),
             nombre_hojas,
+            confirmar_hojas,
         ],
         alignment=ft.MainAxisAlignment.CENTER,
     )
@@ -106,7 +130,7 @@ def crear_ui(page: ft.Page):
             ft.Text(
                 value="3) ¡Con esto estaría listo! Solo queda darle al botón de enviar:",
                 text_align=TEXTO_CENTRADO,
-                size=TEXTO_PEQUEÑO,
+                size=TEXTO_PEQUENO,
             ),
             enviar_documentos,
         ],
