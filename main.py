@@ -81,6 +81,7 @@ def crear_ui(page: ft.Page):
         page.dialog = dlg
         dlg.open = True
         page.update()
+        
 
     estilo_boton = ft.ButtonStyle(
         bgcolor=COLOR_PRIMARIO,
