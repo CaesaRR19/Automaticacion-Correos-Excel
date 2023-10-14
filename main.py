@@ -2,7 +2,9 @@
 """
 
 import flet as ft
+import os
 from filepicker import archivo_seleccionado
+from comprobar_hoja import comprobar_hoja_excel
 
 # Constantes para tamaños de texto, alineaciones y colores
 TEXTO_GRANDE = 40
@@ -52,6 +54,34 @@ def crear_ui(page: ft.Page):
             dlg.open = True
             page.update()
 
+    def comprobar_hoja():
+        nombre_hoja = nombre_hojas.value.split(",")
+        hojas_formateadas = list(map(lambda x: x.strip(),nombre_hoja))
+        hoja1, hoja2 = hojas_formateadas[0], hojas_formateadas[1]
+        nombre = None
+
+        for nombre in os.listdir(os.getcwd()):
+            if nombre.endswith((".xls", ".xlsx")):
+                archivo = nombre
+
+        if not archivo:
+            titulo_alerta = ft.Text("Debes seleccionar un archivo Excel primero.")
+            dlg = ft.AlertDialog(title=titulo_alerta)
+        else:
+            if comprobar_hoja_excel(archivo, hojas_formateadas):
+                titulo_alerta = ft.Text(
+                    f"Las hojas '{hoja1}' y '{hoja2}' se encuentran en el archivo Excel."
+                )
+                dlg = ft.AlertDialog(title=titulo_alerta)
+            else:
+                titulo_alerta = ft.Text(
+                    f"La hoja '{hoja1}' o '{hoja2}' no se encuentran en el archivo Excel."
+                )
+                dlg = ft.AlertDialog(title=titulo_alerta)
+        page.dialog = dlg
+        dlg.open = True
+        page.update()
+
     estilo_boton = ft.ButtonStyle(
         bgcolor=COLOR_PRIMARIO,
         color="white",
@@ -96,7 +126,7 @@ def crear_ui(page: ft.Page):
     confirmar_hojas = ft.ElevatedButton(
         "Confirmar hojas",
         icon=ft.icons.CHECK,
-        on_click="hola",
+        on_click=lambda _: comprobar_hoja(),
         style=estilo_boton,
     )
 

@@ -1,3 +1,5 @@
+"""_summary_
+"""
 import os
 import shutil
 import flet as ft
@@ -25,7 +27,7 @@ def archivo_seleccionado(e: ft.FilePickerResultEvent):
         ruta_archivo = archivo_subido.path
         nombre_archivo = os.path.basename(ruta_archivo)
 
-        print(ruta_archivo)
+        print(nombre_archivo)
 
         # Define la ubicación de destino (en el directorio actual)
         destino_archivo_subido = os.path.join(directorio_actual, nombre_archivo)
