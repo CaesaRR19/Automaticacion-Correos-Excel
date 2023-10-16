@@ -4,10 +4,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 from datetime import datetime
 import os
-from crear_volantes import (
-    crear_volante_empleados_renacimiento,
-    crear_volante_empleados_lincoln,
-)
+
 from buscar_empleados import (
     buscar_nombres_empleados_renacimiento,
     buscar_nombres_empleados_lincoln,
@@ -19,7 +16,6 @@ from buscar_correos import (
 
 
 def enviar_correos_renacimiento(correo, contrasena, nombre_libro, hoja_libro):
-    crear_volante_empleados_renacimiento(nombre_libro, hoja_libro)
     fecha_actual = datetime.now()
     dia_del_mes = fecha_actual.day
     quincena = "primera" if dia_del_mes <= 15 else "segunda"
@@ -52,11 +48,10 @@ def enviar_correos_renacimiento(correo, contrasena, nombre_libro, hoja_libro):
                 )
                 msg.attach(attach)
 
-            server.sendmail(correo, destinatario, msg.as_string())
+                server.sendmail(correo, destinatario, msg.as_string())
 
 
 def enviar_correos_lincoln(correo, contrasena, nombre_libro, hoja_libro):
-    crear_volante_empleados_lincoln(nombre_libro, hoja_libro)
     fecha_actual = datetime.now()
     dia_del_mes = fecha_actual.day
     quincena = "primera" if dia_del_mes <= 15 else "segunda"
@@ -90,3 +85,4 @@ def enviar_correos_lincoln(correo, contrasena, nombre_libro, hoja_libro):
                 msg.attach(attach)
 
             server.sendmail(correo, destinatario, msg.as_string())
+

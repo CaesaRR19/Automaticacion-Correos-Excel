@@ -1,4 +1,5 @@
 import openpyxl
+from quitar_tildes import quitar_tildes
 
 
 def buscar_cedula_empleados(nombre_libro, nombre_hoja):
@@ -20,7 +21,7 @@ def buscar_nombres_empleados_renacimiento(nombre_libro, nombre_hoja):
     for row in ws.iter_rows(values_only=True):
         cedula_empleados = row[1]
         if cedula_empleados is not None:
-            cedulas_empleados.append(cedula_empleados)
+            cedulas_empleados.append(quitar_tildes(cedula_empleados))
     wb.close()
     return cedulas_empleados[1:]
 
@@ -32,7 +33,7 @@ def buscar_nombres_empleados_lincoln(nombre_libro, nombre_hoja):
     for row in ws.iter_rows(values_only=True):
         cedula_empleados = row[1]
         if cedula_empleados is not None:
-            cedulas_empleados.append(cedula_empleados)
+            cedulas_empleados.append(quitar_tildes(cedula_empleados))
     wb.close()
     return cedulas_empleados[3:]
 
