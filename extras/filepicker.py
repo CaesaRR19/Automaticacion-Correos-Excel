@@ -1,4 +1,4 @@
-"""_summary_
+"""Este modulo tiene la funcion archvo seleccionado, la cual me permite crear una copia del archivo seleccionado.
 """
 import os
 import shutil
@@ -7,7 +7,7 @@ import flet as ft
 
 def archivo_seleccionado(e: ft.FilePickerResultEvent):
     """
-    Esta función elimina todos los archivos con extensiones .xlsx y .xls en el directorio actual
+    Esta función elimina todos los archivos con extensiones .xlsx en el directorio actual
     y luego copia el archivo seleccionado al directorio actual.
 
     Args:
