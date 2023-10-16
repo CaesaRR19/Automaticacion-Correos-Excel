@@ -1,10 +1,11 @@
 """Este módulo es el que se encarga de la parte visual del programa.
 """
 
-import flet as ft
 import os
+import flet as ft
 from filepicker import archivo_seleccionado
 from comprobar_hoja import comprobar_hoja_excel
+from enviar_correos import enviar_correos_lincoln, enviar_correos_renacimiento
 
 # Constantes para tamaños de texto, alineaciones y colores
 TEXTO_GRANDE = 40
@@ -56,9 +57,9 @@ def crear_ui(page: ft.Page):
 
     def comprobar_hoja():
         nombre_hoja = nombre_hojas.value.split(",")
-        hojas_formateadas = list(map(lambda x: x.strip(),nombre_hoja))
+        hojas_formateadas = list(map(lambda x: x.strip(), nombre_hoja))
         hoja1, hoja2 = hojas_formateadas[0], hojas_formateadas[1]
-        nombre = None
+        archivo = None
 
         for nombre in os.listdir(os.getcwd()):
             if nombre.endswith((".xls", ".xlsx")):
@@ -81,7 +82,34 @@ def crear_ui(page: ft.Page):
         page.dialog = dlg
         dlg.open = True
         page.update()
-        
+
+    def enviar_excels():
+        nombre_hoja = nombre_hojas.value.split(",")
+        hojas_formateadas = list(map(lambda x: x.strip(), nombre_hoja))
+        hoja1, hoja2 = hojas_formateadas[0], hojas_formateadas[1]
+        archivo = None
+
+        for nombre in os.listdir(os.getcwd()):
+            if nombre.endswith((".xls", ".xlsx")):
+                archivo = nombre
+
+        try:
+            enviar_correos_renacimiento(
+                "cesarcorn19@gmail.com", "pumr gwbl vcvw xkel", archivo, hoja1
+            )
+            enviar_correos_lincoln(
+                "cesarcorn19@gmail.com", "pumr gwbl vcvw xkel", archivo, hoja2
+            )
+            titulo_alerta = ft.Text("¡Se estan creando y enviando los documentos!")
+            dlg = ft.AlertDialog(title=titulo_alerta)
+        except:
+            titulo_alerta = ft.Text(
+                "Hubo un error, reinicie la aplicación y realice el proceso de nuevo."
+            )
+            dlg = ft.AlertDialog(title=titulo_alerta)
+        page.dialog = dlg
+        dlg.open = True
+        page.update()
 
     estilo_boton = ft.ButtonStyle(
         bgcolor=COLOR_PRIMARIO,
@@ -120,7 +148,7 @@ def crear_ui(page: ft.Page):
     enviar_documentos = ft.ElevatedButton(
         "Enviar documentos",
         icon=ft.icons.UPLOAD_FILE,
-        on_click="hola",
+        on_click=lambda _: enviar_excels(),
         style=estilo_boton,
     )
 
