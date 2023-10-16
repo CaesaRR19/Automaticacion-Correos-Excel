@@ -5,11 +5,11 @@ from email.mime.application import MIMEApplication
 from datetime import datetime
 import os
 
-from buscar_empleados import (
+from busqueda.buscar_empleados import (
     buscar_nombres_empleados_renacimiento,
     buscar_nombres_empleados_lincoln,
 )
-from buscar_correos import (
+from busqueda.buscar_correos import (
     buscar_correos_empleados_renacimiento,
     buscar_correos_empleados_lincoln,
 )
@@ -85,4 +85,3 @@ def enviar_correos_lincoln(correo, contrasena, nombre_libro, hoja_libro):
                 msg.attach(attach)
 
             server.sendmail(correo, destinatario, msg.as_string())
-

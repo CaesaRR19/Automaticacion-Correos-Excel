@@ -1,6 +1,6 @@
 import os
 import openpyxl
-from buscar_empleados import (
+from busqueda.buscar_empleados import (
     buscar_nombres_empleados_renacimiento,
     buscar_cedula_empleados,
     buscar_nombres_empleados_lincoln,

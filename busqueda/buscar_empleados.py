@@ -1,5 +1,5 @@
 import openpyxl
-from quitar_tildes import quitar_tildes
+from extras.quitar_tildes import quitar_tildes
 
 
 def buscar_cedula_empleados(nombre_libro, nombre_hoja):

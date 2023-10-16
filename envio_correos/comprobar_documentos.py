@@ -3,14 +3,15 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 import os
 
-from crear_volantes import (
+from envio_correos.crear_volantes import (
     crear_volante_empleados_renacimiento,
     crear_volante_empleados_lincoln,
 )
 
-def comprobar_documentos_empleados(nombre_libro, renacimiento_hoja, lincoln_hoja):
-    crear_volante_empleados_renacimiento(nombre_libro, renacimiento_hoja)
-    crear_volante_empleados_lincoln(nombre_libro, lincoln_hoja)
+
+def comprobar_documentos_empleados(nombre_libro, hojas: list):
+    crear_volante_empleados_renacimiento(nombre_libro, hojas[0])
+    crear_volante_empleados_lincoln(nombre_libro, hojas[1])
 
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
         server.login("cesarcorn19@gmail.com", "pumr gwbl vcvw xkel")
@@ -26,7 +27,9 @@ def comprobar_documentos_empleados(nombre_libro, renacimiento_hoja, lincoln_hoja
             ruta_archivo = os.path.join(excel_renacimiento_folder, nombre_archivo)
             with open(ruta_archivo, "rb") as file:
                 attach = MIMEApplication(file.read(), _subtype="xlsx")
-                attach.add_header("Content-Disposition", f"attachment; filename={nombre_archivo}")
+                attach.add_header(
+                    "Content-Disposition", f"attachment; filename={nombre_archivo}"
+                )
                 msg.attach(attach)
 
         # Adjuntar archivos de la carpeta excels_lincoln
@@ -35,8 +38,12 @@ def comprobar_documentos_empleados(nombre_libro, renacimiento_hoja, lincoln_hoja
             ruta_archivo = os.path.join(excel_lincoln_folder, nombre_archivo)
             with open(ruta_archivo, "rb") as file:
                 attach = MIMEApplication(file.read(), _subtype="xlsx")
-                attach.add_header("Content-Disposition", f"attachment; filename={nombre_archivo}")
+                attach.add_header(
+                    "Content-Disposition", f"attachment; filename={nombre_archivo}"
+                )
                 msg.attach(attach)
 
-        server.sendmail("cesarcorn19@gmail.com", "coramosnolasco@gmail.com", msg.as_string())
+        server.sendmail(
+            "cesarcorn19@gmail.com", "coramosnolasco@gmail.com", msg.as_string()
+        )
         return None
