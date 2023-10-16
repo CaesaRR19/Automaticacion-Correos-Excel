@@ -48,6 +48,3 @@ def crear_volante_empleados_lincoln(nombre_archivo, nombre_hoja):
         wb.save(nombre_archivo_excel)
     wb.close()
     return None
-
-
-crear_volante_empleados_lincoln("NOMINA 1ERA DE OCT 2023.xlsx", "1ERA DE OCT LINCOLN")
