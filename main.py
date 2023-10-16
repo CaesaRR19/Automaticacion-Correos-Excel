@@ -41,7 +41,7 @@ def crear_ui(page: ft.Page):
         try:
             # Intenta ejecutar el filepicker
             filepicker_popup.pick_files(
-                allow_multiple=False, allowed_extensions=["xlsx", "xls"]
+                allow_multiple=False, allowed_extensions=["xlsx"]
             )
         except Exception as e:
             # En caso de error, muestra una alerta con el mensaje de error
@@ -62,7 +62,7 @@ def crear_ui(page: ft.Page):
         archivo = None
 
         for nombre in os.listdir(os.getcwd()):
-            if nombre.endswith((".xls", ".xlsx")):
+            if nombre.endswith((".xlsx")):
                 archivo = nombre
 
         if not archivo:
@@ -90,7 +90,7 @@ def crear_ui(page: ft.Page):
         archivo = None
 
         for nombre in os.listdir(os.getcwd()):
-            if nombre.endswith((".xls", ".xlsx")):
+            if nombre.endswith((".xlsx")):
                 archivo = nombre
 
         try:
@@ -102,7 +102,7 @@ def crear_ui(page: ft.Page):
             )
             titulo_alerta = ft.Text("¡Se estan creando y enviando los documentos!")
             dlg = ft.AlertDialog(title=titulo_alerta)
-        except:
+        except Exception:
             titulo_alerta = ft.Text(
                 "Hubo un error, reinicie la aplicación y realice el proceso de nuevo."
             )
@@ -159,6 +159,13 @@ def crear_ui(page: ft.Page):
         style=estilo_boton,
     )
 
+    comprobar_documentos = ft.ElevatedButton(
+        "Comprobar documentos",
+        icon=ft.icons.CHECK,
+        on_click=lambda _: print("hola"),
+        style=estilo_boton,
+    )
+
     paso_uno = ft.Column(
         [
             ft.Text(
@@ -187,7 +194,19 @@ def crear_ui(page: ft.Page):
     paso_tres = ft.Column(
         [
             ft.Text(
-                value="3) ¡Con esto estaría listo! Solo queda darle al botón de enviar:",
+                value="3) Compruebe de que todos los volantes esten correctos.",
+                text_align=TEXTO_CENTRADO,
+                size=TEXTO_PEQUENO,
+            ),
+            comprobar_documentos,
+        ],
+        alignment=ft.MainAxisAlignment.CENTER,
+    )
+
+    paso_cuatro = ft.Column(
+        [
+            ft.Text(
+                value="4) ¡Con esto estaría listo! Solo queda darle al botón de enviar:",
                 text_align=TEXTO_CENTRADO,
                 size=TEXTO_PEQUENO,
             ),
@@ -202,6 +221,7 @@ def crear_ui(page: ft.Page):
         paso_uno,
         paso_dos,
         paso_tres,
+        paso_cuatro,
     )
 
 

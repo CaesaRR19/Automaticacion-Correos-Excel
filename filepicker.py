@@ -17,7 +17,7 @@ def archivo_seleccionado(e: ft.FilePickerResultEvent):
     if e.files is not None:
         directorio_actual = os.getcwd()
         for archivo in os.listdir(directorio_actual):
-            if archivo.endswith((".xlsx", ".xls")):
+            if archivo.endswith((".xlsx")):
                 archivo_borrado = os.path.join(directorio_actual, archivo)
                 os.remove(archivo_borrado)
 
